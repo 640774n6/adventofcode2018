@@ -50,14 +50,15 @@ int main(int argc, char * argv[])
     fseek(file, 0, SEEK_SET);
     
     //Load polymer into memory
-    char *polymer = malloc(polymerSize + 1);
+    char *polymer = malloc(polymerSize);
     fread(polymer, polymerSize, 1, file);
+    polymerSize--;
     polymer[polymerSize] = '\0';
     fclose(file);
     
     //Copy polymer for full reaction
-    char *fullReactionPolymer = malloc(polymerSize + 1);
-    memcpy(fullReactionPolymer, polymer, polymerSize + 1);
+    char *fullReactionPolymer = malloc(polymerSize);
+    memcpy(fullReactionPolymer, polymer, polymerSize);
     
     //React full polymer and find remaining units
     int fullReactionUnits = reactPolymer(&fullReactionPolymer, polymerSize);
@@ -72,7 +73,7 @@ int main(int argc, char * argv[])
     {
         char l = u + 32;
         
-        char *partReactionPolymer = malloc(polymerSize + 1);
+        char *partReactionPolymer = malloc(polymerSize);
         int partReactionPolymerSize = 0;
         for(int i = 0; i < polymerSize; i++)
         {
