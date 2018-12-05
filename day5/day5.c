@@ -73,21 +73,16 @@ int main(int argc, char * argv[])
         char l = u + 32;
         
         char *partReactionPolymer = malloc(polymerSize + 1);
-        memcpy(partReactionPolymer, polymer, polymerSize + 1);
-        
-        int partReactionPolymerSize = (int)polymerSize;
+        int partReactionPolymerSize = 0;
         for(int i = 0; i < polymerSize; i++)
         {
-            if(partReactionPolymer[i] == u ||
-               partReactionPolymer[i] == l)
+            if(polymer[i] != u && polymer[i] != l)
             {
-                memmove(&partReactionPolymer[i],
-                        &partReactionPolymer[i + 1],
-                        partReactionPolymerSize - i);
-                partReactionPolymerSize--;
-                i--;
+                partReactionPolymer[partReactionPolymerSize] = polymer[i];
+                partReactionPolymerSize++;
             }
         }
+        partReactionPolymer[partReactionPolymerSize + 1] = '\0';
         
         int partReactionUnits = reactPolymer(&partReactionPolymer, partReactionPolymerSize);
         minPartReactionUnits = MIN(minPartReactionUnits, partReactionUnits);
