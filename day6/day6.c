@@ -72,24 +72,24 @@ int main(int argc, char *argv[])
     int gridWidth = maxCoordinate.x + 1;
     int gridHeight = maxCoordinate.y + 1;
     
-    //Calculate coordinate areas
+    //Calculate areas
+    int safeRegionArea = 0;
     for(int y = minCoordinate.y; y < gridHeight; y++)
     {
         for(int x = minCoordinate.x; x < gridWidth; x++)
         {
-            //Initialize distances
-            int distancesCounter[maxCoordinate.x + maxCoordinate.y + 1];
-            memset(distancesCounter, 0, sizeof(int) * (maxCoordinate.x + maxCoordinate.y + 1));
-            
             //Find id of min distance coordinate
             int minDistance = INT_MAX;
             int minDistanceCoordinateId = -1;
+            int totalDistance = 0;
             for(int c = 0; c < coordinatesCount; c++)
             {
                 coordinate coordinate = coordinates[c];
                 int distance = abs(coordinate.x - x) + abs(coordinate.y - y);
-                distancesCounter[distance]++;
+                totalDistance += distance;
                 
+                if(minDistance == distance)
+                { minDistanceCoordinateId = -1; }
                 if(minDistance > distance)
                 {
                     minDistance = distance;
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
             }
             
             //If min distance only occured for one coordinate
-            if(distancesCounter[minDistance] == 1)
+            if(minDistanceCoordinateId != -1)
             {
                 //Increment coordinate area
                 coordinates[minDistanceCoordinateId - 1].area++;
@@ -110,39 +110,22 @@ int main(int argc, char *argv[])
                    y == maxCoordinate.y)
                 { coordinates[minDistanceCoordinateId - 1].finate = 0; }
             }
+            
+            //If distance total is below the safe threshold; increment safe region area
+            if(totalDistance < 10000)
+            { safeRegionArea++; }
         }
     }
     
-    //Find max area
-    int maxArea = INT_MIN;
+    //Find max finate area
+    int maxFinateArea = INT_MIN;
     for(int i = 0; i < coordinatesCount; i++)
     {
         coordinate coordinate = coordinates[i];
         if(coordinate.finate == 1)
-        { maxArea = MAX(maxArea, coordinate.area); }
+        { maxFinateArea = MAX(maxFinateArea, coordinate.area); }
     }
-    printf("part1: max finate area = %d\n", maxArea);
-    
-    //Calculate safe region area
-    int safeRegionArea = 0;
-    for(int y = minCoordinate.y; y < gridHeight; y++)
-    {
-        for(int x = minCoordinate.x; x < gridWidth; x++)
-        {
-            //Calculate total of distances to all coordinates
-            int distanceTotal = 0;
-            for(int c = 0; c < coordinatesCount; c++)
-            {
-                coordinate coordinate = coordinates[c];
-                int distance = abs(coordinate.x - x) + abs(coordinate.y - y);
-                distanceTotal += distance;
-            }
-            
-            //If it is below the safe threshold; increment safe region area
-            if(distanceTotal < 10000)
-            { safeRegionArea++; }
-        }
-    }
+    printf("part1: max finate area = %d\n", maxFinateArea);
     printf("part2: safe region area = %d\n", safeRegionArea);
     
     //Cleanup
