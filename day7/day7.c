@@ -100,10 +100,6 @@ int main(int argc, char *argv[])
     }
     printf("\n");
     
-    //Initialize workers
-    step *workers[5];
-    memset(workers, 0, sizeof(step *) * 5);
-    
     //Reset step completion
     for(int i = 0; i < 26; i++)
     {
@@ -111,6 +107,10 @@ int main(int argc, char *argv[])
         if(s)
         { s->completed = 0; }
     }
+    
+    //Initialize workers
+    step *workers[5];
+    memset(workers, 0, sizeof(step *) * 5);
     
     //Find total number of seconds to complete steps
     int secondsTotal = 0;
@@ -161,12 +161,15 @@ int main(int argc, char *argv[])
         
         //If no workers are working, we are done!
         if(!working)
-        { break; }
+        {
+            secondsTotal--;
+            break;
+        }
         
         //Increment number of seconds passed
         secondsTotal++;
     }
-    printf("part2: total seconds to assemble = %d\n", secondsTotal - 1);
+    printf("part2: total seconds to assemble = %d\n", secondsTotal);
     
     //Cleanup
     for(int i = 0; i < 26; i++)
