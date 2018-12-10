@@ -1,6 +1,6 @@
 //
-//  day8.c
-//  day8
+//  day08.c
+//  day08
 //
 //  Created by Brandon Holland on 2018-12-03.
 //  Copyright © 2018 Brandon Holland. All rights reserved.
@@ -62,7 +62,7 @@ int getNodeValue(node *n)
     //The value
     int value = 0;
     
-    //If node doens't have any child nodes
+    //If node doesn't have any child nodes
     if(n->childrenCount == 0)
     {
         //Add up meta data
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
     //Argument check
     if (argc < 2)
     {
-        printf("usage: day8 <INPUT>\n");
+        printf("usage: day08 <INPUT>\n");
         exit(0);
     }
     

@@ -1,6 +1,6 @@
 //
-//  day9.c
-//  day9
+//  day09.c
+//  day09
 //
 //  Created by Brandon Holland on 2018-12-03.
 //  Copyright © 2018 Brandon Holland. All rights reserved.
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
     //Argument check
     if (argc < 2)
     {
-        printf("usage: day9 <INPUT>\n");
+        printf("usage: day09 <INPUT>\n");
         exit(0);
     }
     
@@ -122,9 +122,11 @@ int main(int argc, char *argv[])
     fscanf(file, "%d players; last marble is worth %d points", &playerCount, &lastMarbleValue);
     fclose(file);
     
+    //Get high score for player count and last marble value
     int64_t highScorePart1 = playMarbleMania(playerCount, lastMarbleValue);
     printf("part1: high score = %lld\n", highScorePart1);
     
+    //Get high score for player count and last marble value x 100
     int64_t highScorePart2 = playMarbleMania(playerCount, lastMarbleValue * 100);
     printf("part2: high score = %lld\n", highScorePart2);
     

@@ -133,7 +133,8 @@ int main(int argc, char *argv[])
         }
     }
     fclose(file);
-    
+	
+    //Search for message    
     int64_t seconds = 0;
     int64_t minSpace = LONG_LONG_MAX;
     for(;;)

@@ -1,6 +1,6 @@
 //
-//  day3.c
-//  day3
+//  day03.c
+//  day03
 //
 //  Created by Brandon Holland on 2018-12-01.
 //  Copyright © 2018 Brandon Holland. All rights reserved.
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     //Argument check
     if (argc < 2)
     {
-        printf("usage: day3 <INPUT>\n");
+        printf("usage: day03 <INPUT>\n");
         exit(0);
     }
     
