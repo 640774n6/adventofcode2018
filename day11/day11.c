@@ -31,11 +31,11 @@ void findMaxTotal(int sums[GRID_SIZE][GRID_SIZE],
             //Calculate total sum for area
             int xMin = x - 1;
             int yMin = y - 1;
-            int A = sums[xMin][yMin];
-            int B = sums[xMin + size][yMin];
-            int C = sums[xMin][yMin + size];
-            int D = sums[xMin + size][yMin + size];
-            int totalLevel = D - B - C + A;
+            int a = sums[xMin][yMin];
+            int b = sums[xMin + size][yMin];
+            int c = sums[xMin][yMin + size];
+            int d = sums[xMin + size][yMin + size];
+            int totalLevel = d - b - c + a;
             
             //If sum is larger than current max
             if(totalLevel > *returnTotalLevel)
