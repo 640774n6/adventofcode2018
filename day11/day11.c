@@ -16,7 +16,7 @@
 
 #define GRID_SIZE  300
 
-void findMaxTotal(int sums[GRID_SIZE][GRID_SIZE],
+void findMaxTotal(int **sums,
                   int size,
                   int *returnTotalLevel,
                   int *returnX,
@@ -73,9 +73,15 @@ int main(int argc, char *argv[])
     fscanf(file, "%d", &serialNumber);
     fclose(file);
     
+    //Initialize summed area table
+    int **sums = malloc(sizeof(int *) * GRID_SIZE);
+    for(int i = 0; i < GRID_SIZE; i++)
+    {
+        sums[i] = malloc(sizeof(int) * GRID_SIZE);
+        memset(sums[i], 0, sizeof(int) * GRID_SIZE);
+    }
+
     //Generate summed area table
-    int sums[GRID_SIZE][GRID_SIZE];
-    memset(sums, 0, sizeof(int) * GRID_SIZE * GRID_SIZE);
     for(int y = 1; y < GRID_SIZE; y++)
     {
         for(int x = 1; x < GRID_SIZE; x++)
@@ -124,6 +130,10 @@ int main(int argc, char *argv[])
            maxX,
            maxY);
     
-    //Finished
+    //Cleanup
+    for(int i = 0; i < GRID_SIZE; i++)
+    { free(sums[i]); }
+    free(sums);
+    
     return 0;
 }
