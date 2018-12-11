@@ -16,26 +16,31 @@
 
 #define GRID_SIZE  300
 
-void findMaxTotal(int grid[GRID_SIZE][GRID_SIZE],
+void findMaxTotal(int sums[GRID_SIZE][GRID_SIZE],
                   int size,
                   int *returnTotalLevel,
                   int *returnX,
                   int *returnY)
 {
+    //Iterate through sum table
     *returnTotalLevel = INT_MIN;
-    for(int y = 0; y < GRID_SIZE - size; y++)
+    for(int y = 1; y < GRID_SIZE - size; y++)
     {
-        for(int x = 0; x < GRID_SIZE - size; x++)
+        for(int x = 1; x < GRID_SIZE - size; x++)
         {
-            int totalLevel = 0;
-            for(int yy = 0; yy < size; yy++)
-            {
-                for(int xx = 0; xx < size; xx++)
-                { totalLevel += grid[x + xx][y + yy]; }
-            }
+            //Calculate total sum for area
+            int xMin = x - 1;
+            int yMin = y - 1;
+            int A = sums[xMin][yMin];
+            int B = sums[xMin + size][yMin];
+            int C = sums[xMin][yMin + size];
+            int D = sums[xMin + size][yMin + size];
+            int totalLevel = D - B - C + A;
             
+            //If sum is larger than current max
             if(totalLevel > *returnTotalLevel)
             {
+                //Update current max
                 *returnTotalLevel = totalLevel;
                 *returnX = x;
                 *returnY = y;
@@ -46,6 +51,7 @@ void findMaxTotal(int grid[GRID_SIZE][GRID_SIZE],
 
 int calculateLevel(int x, int y, int s)
 {
+    //Calculate fuel level
     int rackId = x + 10;
     int level = ((rackId * y) + s) * rackId;
     level = (level / 100) % 10;
@@ -67,19 +73,26 @@ int main(int argc, char *argv[])
     fscanf(file, "%d", &serialNumber);
     fclose(file);
     
-    //Initialize grid and populate with levels
-    int grid[GRID_SIZE][GRID_SIZE];
-    for(int y = 0; y < GRID_SIZE; y++)
+    //Generate summed area table
+    int sums[GRID_SIZE][GRID_SIZE];
+    memset(sums, 0, sizeof(int) * GRID_SIZE * GRID_SIZE);
+    for(int y = 1; y < GRID_SIZE; y++)
     {
-        for(int x = 0; x < GRID_SIZE; x++)
-        { grid[x][y] = calculateLevel(x, y, serialNumber); }
+        for(int x = 1; x < GRID_SIZE; x++)
+        {
+            sums[x][y] =
+                calculateLevel(x, y, serialNumber) +
+                sums[x][y - 1] +
+                sums[x - 1][y] -
+                sums[x - 1][y - 1];
+        }
     }
     
     //Find max total 3x3 level coordinates
     int total3x3 = -1;
     int x3x3 = -1;
     int y3x3 = -1;
-    findMaxTotal(grid, 3, &total3x3, &x3x3, &y3x3);
+    findMaxTotal(sums, 3, &total3x3, &x3x3, &y3x3);
     printf("part1: fuel cell group (3) with largest total power (%d) = %d,%d\n",
            total3x3,
            x3x3,
@@ -90,12 +103,12 @@ int main(int argc, char *argv[])
     int maxX = -1;
     int maxY = -1;
     int maxSize = -1;
-    for(int i = 0; i < GRID_SIZE; i++)
+    for(int i = 1; i < GRID_SIZE; i++)
     {
         int x = -1;
         int y = -1;
         int total = -1;
-        findMaxTotal(grid, i, &total, &x, &y);
+        findMaxTotal(sums, i, &total, &x, &y);
         
         if(total > maxTotal)
         {
