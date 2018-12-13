@@ -379,7 +379,7 @@ int main(int argc, char *argv[])
     int lastCartStandingY = -1;
     track ***deathMatchTracks = copyTracks(tracks, width, height);
     int lastCartStandingTicks = battleCarts(deathMatchTracks, width, height, cartsCount, 1, &lastCartStandingX, &lastCartStandingY);
-    printf("part2; last cart standing @ %d,%d after %d ticks\n", lastCartStandingX, lastCartStandingY, lastCartStandingTicks);
+    printf("part2: last cart standing @ %d,%d after %d ticks\n", lastCartStandingX, lastCartStandingY, lastCartStandingTicks);
     freeTracks(deathMatchTracks, width, height);
     
     //Cleanup
